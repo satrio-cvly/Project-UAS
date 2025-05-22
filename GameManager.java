@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-// Kelas induk (parent class)
 class Game {
     protected String nama;    
     protected String type;
@@ -15,7 +14,6 @@ class Game {
     protected double price;
     protected double discountRate;
     
-    // Constructor
     Game(String nama, String type, String device, double rating, double price, double discountRate) {
         this.nama = nama;
         this.type = type;
@@ -116,7 +114,6 @@ class Game {
     }
 }
 
-// Kelas turunan - MobileGame
 class MobileGame extends Game {
     private String platform; // Android, iOS
     private boolean isFreeToPlay;
@@ -128,7 +125,6 @@ class MobileGame extends Game {
         this.isFreeToPlay = isFreeToPlay;
     }
     
-    // Override method dari kelas induk
     @Override
     public void tampilkanInfo() {
         super.tampilkanInfo(); // Memanggil method tampilkanInfo() dari kelas induk
@@ -136,7 +132,6 @@ class MobileGame extends Game {
         System.out.println("Free to Play: " + (this.isFreeToPlay ? "Yes" : "No"));
     }
     
-    // Method khusus untuk MobileGame
     public String getPlatform() {
         return platform;
     }
@@ -146,7 +141,6 @@ class MobileGame extends Game {
     }
 }
 
-// Kelas turunan - PCGame
 class PCGame extends Game {
     private String[] systemRequirements;
     private boolean isMultiplayer;
@@ -158,7 +152,6 @@ class PCGame extends Game {
         this.isMultiplayer = isMultiplayer;
     }
     
-    // Override method dari kelas induk
     @Override
     public void tampilkanInfo() {
         super.tampilkanInfo(); // Memanggil method tampilkanInfo() dari kelas induk
@@ -179,7 +172,6 @@ class PCGame extends Game {
     }
 }
 
-// Kelas turunan - ConsoleGame
 class ConsoleGame extends Game {
     private String consoleName; // PlayStation, Xbox, Nintendo
     private boolean requiresSubscription;
@@ -191,7 +183,6 @@ class ConsoleGame extends Game {
         this.requiresSubscription = requiresSubscription;
     }
     
-    // Override method dari kelas induk
     @Override
     public void tampilkanInfo() {
         super.tampilkanInfo(); // Memanggil method tampilkanInfo() dari kelas induk
@@ -199,7 +190,6 @@ class ConsoleGame extends Game {
         System.out.println("Requires Subscription: " + (this.requiresSubscription ? "Yes" : "No"));
     }
     
-    // Method khusus untuk ConsoleGame
     public String getConsoleName() {
         return consoleName;
     }
@@ -208,7 +198,6 @@ class ConsoleGame extends Game {
         return requiresSubscription;
     }
     
-    // Override metode calculateTotalPrice untuk menambahkan biaya subscription jika diperlukan
     @Override
     public double calculateTotalPrice() {
         double basePrice = super.calculateTotalPrice(); // Memanggil method calculateTotalPrice() dari kelas induk
@@ -226,7 +215,6 @@ public class GameManager {
     private static Scanner scanner = new Scanner(System.in);
     
     public static void main(String[] args) {
-        // Initialize sample games dengan pewarisan
         initializeGames();
         
         boolean running = true;
@@ -263,32 +251,25 @@ public class GameManager {
     }
     
     private static void initializeGames() {
-        // Membuat objek dari kelas turunan (MobileGame)
         MobileGame game1 = new MobileGame("Mobile Legends", "MOBA", 4.5, 150, 0.1, "Android", true);
         
-        // Membuat objek dari kelas turunan (PCGame)
         String[] pubgReqs = {"RAM: 8GB", "CPU: Intel i5", "GPU: NVIDIA GTX 960"};
         PCGame game2 = new PCGame("PUBG", "Battle Royale", 4.2, 500, 0.4, pubgReqs, true);
         
-        // Membuat objek dari kelas turunan (ConsoleGame)
         ConsoleGame game3 = new ConsoleGame("PES", "Sports", 3.8, 900, 0.15, "PlayStation 5", true);
         
-        // Membuat objek dari kelas turunan (PCGame)
         String[] valorantReqs = {"RAM: 4GB", "CPU: Intel i3", "GPU: Intel HD 4000"};
         PCGame game4 = new PCGame("Valorant", "FPS", 4.7, 0, 0, valorantReqs, true);
         
-        // Membuat objek dari kelas turunan (PCGame)
         String[] minecraftReqs = {"RAM: 4GB", "CPU: Any", "Storage: 2GB"};
         PCGame game5 = new PCGame("Minecraft", "Sandbox", 4.8, 300, 0.2, minecraftReqs, false);
         
-        // Tambahkan objek-objek dari kelas turunan ke dalam ArrayList listgame
         listgame.add(game1);
         listgame.add(game2);
         listgame.add(game3);
         listgame.add(game4);
         listgame.add(game5);
         
-        // Isi HashMap untuk akses cepat berdasarkan nama
         for (Game game : listgame) {
             gameMap.put(game.getNama().toLowerCase(), game);
         }
@@ -364,13 +345,11 @@ public class GameManager {
         System.out.print("Masukkan nama game: ");
         String gameName = scanner.nextLine().toLowerCase();
         
-        // Menggunakan HashMap untuk pencarian O(1) berdasarkan nama
         if (gameMap.containsKey(gameName)) {
             System.out.println("\n=== HASIL PENCARIAN ===");
             gameMap.get(gameName).tampilkanInfo();
             displayRecommendation(gameMap.get(gameName));
         } else {
-            // Jika tidak ditemukan di HashMap, coba pencarian yang lebih fleksibel di ArrayList
             boolean found = false;
             System.out.println("\n=== HASIL PENCARIAN ===");
             
@@ -446,7 +425,6 @@ public class GameManager {
         
         int sortMethod = getUserChoice();
         
-        // Buat salinan jadi tidak mengubah urutan daftar asli
         ArrayList<Game> sortedList = new ArrayList<>(listgame);
         
         switch (sortMethod) {
@@ -562,10 +540,8 @@ public class GameManager {
     }
     
     private static void displayGamesByType() {
-        // Menggunakan HashMap untuk mengelompokkan game berdasarkan jenisnya
         Map<String, ArrayList<Game>> gamesByType = new HashMap<>();
         
-        // Kelompok game berdasarkan jenisnya
         for (Game game : listgame) {
             String type = game.getType();
             if (!gamesByType.containsKey(type)) {
