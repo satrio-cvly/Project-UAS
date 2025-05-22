@@ -1,0 +1,8 @@
+com\gamemanager\model\PCGame.class
+com\gamemanager\model\Game.class
+com\gamemanager\repository\GameRepository.class
+com\gamemanager\model\MobileGame.class
+com\gamemanager\service\GameService.class
+com\gamemanager\model\ConsoleGame.class
+com\gamemanager\GameManagerApplication.class
+com\gamemanager\controller\GameController.class
