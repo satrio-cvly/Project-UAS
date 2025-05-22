@@ -1,4 +1,4 @@
-package com.gamemanager.model;
+package com.example.gamemanager.model;
 
 import java.util.UUID;
 

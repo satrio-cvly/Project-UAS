@@ -1,9 +1,9 @@
-package com.gamemanager.repository;
+package com.example.gamemanager.repository;
 
-import com.gamemanager.model.ConsoleGame;
-import com.gamemanager.model.Game;
-import com.gamemanager.model.MobileGame;
-import com.gamemanager.model.PCGame;
+import com.example.gamemanager.model.ConsoleGame;
+import com.example.gamemanager.model.Game;
+import com.example.gamemanager.model.MobileGame;
+import com.example.gamemanager.model.PCGame;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -72,16 +72,6 @@ public class GameRepository {
                 .collect(Collectors.toList());
     }
     
-    public List<Game> getGamesByDevice(String device) {
-        if (device == null || device.isEmpty()) {
-            return new ArrayList<>();
-        }
-        
-        String lowerCaseDevice = device.toLowerCase();
-        return games.stream()
-                .filter(game -> game.getDevice().toLowerCase().equals(lowerCaseDevice))
-                .collect(Collectors.toList());
-    }
     
     public List<Game> getGamesByType(String type) {
         if (type == null || type.isEmpty()) {
@@ -94,39 +84,35 @@ public class GameRepository {
                 .collect(Collectors.toList());
     }
     
-    public Map<String, List<Game>> getAllGamesByType() {
-        Map<String, List<Game>> gamesByType = new HashMap<>();
-        
-        for (Game game : games) {
-            String type = game.getType();
-            if (!gamesByType.containsKey(type)) {
-                gamesByType.put(type, new ArrayList<>());
-            }
-            gamesByType.get(type).add(game);
-        }
-        
-        return gamesByType;
-    }
-    
     public void addGame(Game game) {
         games.add(game);
-        gameMap.put(game.getNama().toLowerCase(), game);
+        gameMap.put(game.getId(), game);
     }
     
     public boolean deleteGame(String id) {
         Game game = getGameById(id);
         if (game != null) {
             games.remove(game);
-            gameMap.remove(game.getNama().toLowerCase());
+            gameMap.remove(id);
             return true;
         }
         return false;
+    }
+    
+    public Map<String, List<Game>> getAllGamesByType() {
+        return games.stream().collect(Collectors.groupingBy(Game::getType));
     }
     
     public List<String> getAllGameTypes() {
         return games.stream()
                 .map(Game::getType)
                 .distinct()
+                .collect(Collectors.toList());
+    }
+    
+    public List<Game> getGamesByDevice(String device) {
+        return games.stream()
+                .filter(game -> game.getDevice().equalsIgnoreCase(device))
                 .collect(Collectors.toList());
     }
 }

@@ -1,19 +1,20 @@
-package com.gamemanager.controller;
+package com.example.gamemanager.controller;
 
-import com.gamemanager.model.ConsoleGame;
-import com.gamemanager.model.Game;
-import com.gamemanager.model.MobileGame;
-import com.gamemanager.model.PCGame;
-import com.gamemanager.service.GameService;
+import com.example.gamemanager.model.ConsoleGame;
+import com.example.gamemanager.model.Game;
+import com.example.gamemanager.model.MobileGame;
+import com.example.gamemanager.model.PCGame;
+import com.example.gamemanager.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class GameController {
@@ -46,7 +47,7 @@ public class GameController {
         
         model.addAttribute("game", game);
         
-        // Add specific attributes based on game type
+        // Tambahkan tipe game jika perlu
         if (game instanceof MobileGame) {
             model.addAttribute("gameType", "mobile");
         } else if (game instanceof PCGame) {
@@ -66,12 +67,12 @@ public class GameController {
     
     @PostMapping("/games/add/mobile")
     public String addMobileGame(@RequestParam String nama, 
-                              @RequestParam String type,
-                              @RequestParam double rating,
-                              @RequestParam double price,
-                              @RequestParam int discountRate,
-                              @RequestParam String platform,
-                              @RequestParam(required = false) boolean isFreeToPlay) {
+                            @RequestParam String type,
+                            @RequestParam double rating,
+                            @RequestParam double price,
+                            @RequestParam int discountRate,
+                            @RequestParam String platform,
+                            @RequestParam(required = false) boolean isFreeToPlay) {
         
         gameService.createMobileGame(nama, type, rating, price, discountRate / 100.0, platform, isFreeToPlay);
         return "redirect:/games";
@@ -79,12 +80,12 @@ public class GameController {
     
     @PostMapping("/games/add/pc")
     public String addPCGame(@RequestParam String nama, 
-                          @RequestParam String type,
-                          @RequestParam double rating,
-                          @RequestParam double price,
-                          @RequestParam int discountRate,
-                          @RequestParam String systemRequirementsString,
-                          @RequestParam(required = false) boolean isMultiplayer) {
+                        @RequestParam String type,
+                        @RequestParam double rating,
+                        @RequestParam double price,
+                        @RequestParam int discountRate,
+                        @RequestParam String systemRequirementsString,
+                        @RequestParam(required = false) boolean isMultiplayer) {
         
         String[] systemRequirements = systemRequirementsString.split("\n");
         gameService.createPCGame(nama, type, rating, price, discountRate / 100.0, systemRequirements, isMultiplayer);
@@ -134,8 +135,8 @@ public class GameController {
     
     @GetMapping("/games/sort")
     public String sortGames(@RequestParam String sortBy, 
-                          @RequestParam(defaultValue = "true") boolean ascending,
-                          Model model) {
+                        @RequestParam(defaultValue = "true") boolean ascending,
+                        Model model) {
         
         List<Game> sortedGames = gameService.sortGames(sortBy, ascending);
         model.addAttribute("games", sortedGames);
@@ -177,5 +178,11 @@ public class GameController {
         } else {
             return gameService.getGamesByRatingRange(minRating, maxRating);
         }
+    }
+    
+    @GetMapping("/games/ids")
+    @ResponseBody
+    public List<String> getAllIds() {
+        return gameService.getAllGames().stream().map(Game::getId).collect(Collectors.toList());
     }
 }

@@ -1,4 +1,4 @@
-package com.gamemanager.model;
+package com.example.gamemanager.model;
 
 public class ConsoleGame extends Game {
     private String consoleName; // PlayStation, Xbox, Nintendo

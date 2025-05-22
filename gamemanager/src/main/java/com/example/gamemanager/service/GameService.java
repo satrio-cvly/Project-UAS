@@ -1,10 +1,10 @@
-package com.gamemanager.service;
+package com.example.gamemanager.service;
 
-import com.gamemanager.model.ConsoleGame;
-import com.gamemanager.model.Game;
-import com.gamemanager.model.MobileGame;
-import com.gamemanager.model.PCGame;
-import com.gamemanager.repository.GameRepository;
+import com.example.gamemanager.model.ConsoleGame;
+import com.example.gamemanager.model.Game;
+import com.example.gamemanager.model.MobileGame;
+import com.example.gamemanager.model.PCGame;
+import com.example.gamemanager.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 @Service
 public class GameService {
     
     private final GameRepository gameRepository;
     
-    @Autowired
     public GameService(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
     }
@@ -75,25 +75,19 @@ public class GameService {
         gameRepository.addGame(game);
     }
     
-    public MobileGame createMobileGame(String nama, String type, double rating, double price, 
-                                    double discountRate, String platform, boolean isFreeToPlay) {
+    public void createMobileGame(String nama, String type, double rating, double price, double discountRate, String platform, boolean isFreeToPlay) {
         MobileGame game = new MobileGame(nama, type, rating, price, discountRate, platform, isFreeToPlay);
         gameRepository.addGame(game);
-        return game;
     }
     
-    public PCGame createPCGame(String nama, String type, double rating, double price, 
-                            double discountRate, String[] systemRequirements, boolean isMultiplayer) {
+    public void createPCGame(String nama, String type, double rating, double price, double discountRate, String[] systemRequirements, boolean isMultiplayer) {
         PCGame game = new PCGame(nama, type, rating, price, discountRate, systemRequirements, isMultiplayer);
         gameRepository.addGame(game);
-        return game;
     }
     
-    public ConsoleGame createConsoleGame(String nama, String type, double rating, double price, 
-                                      double discountRate, String consoleName, boolean requiresSubscription) {
+    public void createConsoleGame(String nama, String type, double rating, double price, double discountRate, String consoleName, boolean requiresSubscription) {
         ConsoleGame game = new ConsoleGame(nama, type, rating, price, discountRate, consoleName, requiresSubscription);
         gameRepository.addGame(game);
-        return game;
     }
     
     public boolean deleteGame(String id) {

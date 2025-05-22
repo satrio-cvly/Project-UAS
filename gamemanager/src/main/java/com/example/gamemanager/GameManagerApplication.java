@@ -1,4 +1,4 @@
-package com.gamemanager;
+package com.example.gamemanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

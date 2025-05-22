@@ -1,4 +1,4 @@
-package com.gamemanager.model;
+package com.example.gamemanager.model;
 
 public class PCGame extends Game {
     private String[] systemRequirements;
